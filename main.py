@@ -9,6 +9,8 @@ import os
 # bring in pynput for keypress capture
 import keyboard
 
+Escape = True
+
 class GamePlay(): 
     def __init__(self): 
         # Setup the game area 
@@ -24,30 +26,32 @@ class GamePlay():
         uppressed = False
         downpressed = False
 
-        if keyboard.is_pressed("left arrow") == True:
+        if keyboard.is_pressed("left arrow"):
             leftpressed = True
-        if keyboard.is_pressed("right arrow") == True:
+        if keyboard.is_pressed("right arrow"):
             rightpressed = True
-        if keyboard.is_pressed("down arrow") == True:
+        if keyboard.is_pressed("down arrow"):
             downpressed = True
-        if keyboard.is_pressed("up arrow") == True:
+        if keyboard.is_pressed("up arrow"):
             uppressed = True
+        if keyboard.is_pressed("esc"):
+            global Escape
+            Escape = False
         current_keys = []
-        if rightpressed == True:
+        if rightpressed:
             current_keys.append("right arrow")
-        if leftpressed == True:
+        if leftpressed:
             current_keys.append("left arrow")
-        if downpressed == True:
+        if downpressed:
             current_keys.append("down arrow")
-        if uppressed == True:
+        if uppressed:
             current_keys.append("up arrow")
         print(current_keys)
 
         filename = os.path.join('data', str(uuid.uuid1()))
         gamecap = np.array(self.capture.grab(self.game_area))
         cv2.imwrite(f'{filename}.png', gamecap)
-        if len(current_keys) != 0:
-            np.savetxt(f'{filename}.txt', np.array([",".join(current_keys)]), fmt='%s')
+        np.savetxt(f'{filename}.txt', np.array([",".join(current_keys)]), fmt='%s')
         time.sleep(0.2)
 
 
@@ -55,5 +59,5 @@ if __name__ == '__main__':
     # Sleep for 10 seconds to allow us to get back into the game
     time.sleep(2)
     game = GamePlay()
-    while True:
+    while Escape:
         game.collect_gameplay()
