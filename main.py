@@ -52,7 +52,7 @@ class GamePlay():
         gamecap = np.array(self.capture.grab(self.game_area))
         cv2.imwrite(f'{filename}.png', gamecap)
         np.savetxt(f'{filename}.txt', np.array([",".join(current_keys)]), fmt='%s')
-        time.sleep(0.2)
+        time.sleep(0.1)
 
 
 if __name__ == '__main__':
@@ -60,4 +60,4 @@ if __name__ == '__main__':
     time.sleep(2)
     game = GamePlay()
     while Escape:
-        game.collect_gameplay()
+        game.collect_gameplay()    # DRY AFTERNOON AND MEXICO
