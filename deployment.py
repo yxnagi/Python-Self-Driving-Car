@@ -23,11 +23,11 @@ currentkey2 = None
 class Capture(): 
     def __init__(self): 
         # Setup the game area 
-        self.game_area = {"left": 0, "top": 30, "width": 1030, "height": 730}
+        self.game_area = {"left": 100, "top": 425, "width": 850, "height":240}
         self.capture = mss()
         self.keys = []
 
-        self.model = tf.keras.models.load_model('modeltype1.model')
+        self.model = tf.keras.models.load_model('modeltype2.model')
 
 
     def make_move(self, currentkey, currentkey2):
@@ -41,9 +41,11 @@ class Capture():
        
         gamecap = np.array(self.capture.grab(self.game_area))
         img = gamecap
-        img = cv2.resize(img, (662, 470))  # Resize to (662, 470) to match the model's input shape
         img = img / 255.0  # Normalize the pixel values to the range [0, 1]
         img = img[:, :, :3]
+        img = tf.image.adjust_brightness(img, -0.25)
+        img = tf.image.adjust_contrast(img, 5)
+        img = tf.image.adjust_gamma(img, 5, 5)
         prediction = self.model.predict(tf.convert_to_tensor([img]))
         round_preds = np.around(prediction)
         print(round_preds)
@@ -89,8 +91,9 @@ class Capture():
         #if key == currentkey or key == currentkey2:
         #    pass
         #else:
-        keyboard.press(key)
-        print("key pressed")
+        if key != None:
+            keyboard.press(key)
+            print("key pressed")
         #if key2 == currentkey or key2 == currentkey2:
         #    pass
         #else:

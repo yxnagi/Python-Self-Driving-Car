@@ -14,7 +14,7 @@ Escape = True
 class GamePlay(): 
     def __init__(self): 
         # Setup the game area 
-        self.game_area = {"left": 0, "top": 30, "width": 1030, "height": 730}
+        self.game_area = {"left": 100, "top": 425, "width": 850, "height":240}
         self.capture = mss()
         self.current_keys = []
 
@@ -48,7 +48,7 @@ class GamePlay():
             current_keys.append("up arrow")
         print(current_keys)
 
-        filename = os.path.join('data', str(uuid.uuid1()))
+        filename = os.path.join('data2', str(uuid.uuid1()))
         gamecap = np.array(self.capture.grab(self.game_area))
         cv2.imwrite(f'{filename}.png', gamecap)
         np.savetxt(f'{filename}.txt', np.array([",".join(current_keys)]), fmt='%s')
