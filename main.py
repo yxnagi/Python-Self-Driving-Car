@@ -48,11 +48,11 @@ class GamePlay():
             current_keys.append("up arrow")
         print(current_keys)
 
-        filename = os.path.join('data2', str(uuid.uuid1()))
+        filename = os.path.join('data3', str(uuid.uuid1()))
         gamecap = np.array(self.capture.grab(self.game_area))
         cv2.imwrite(f'{filename}.png', gamecap)
         np.savetxt(f'{filename}.txt', np.array([",".join(current_keys)]), fmt='%s')
-        time.sleep(0.1)
+        time.sleep(0.025)
 
 
 if __name__ == '__main__':
