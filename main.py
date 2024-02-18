@@ -9,14 +9,27 @@ import os
 # bring in pynput for keypress capture
 import keyboard
 
+
+import matplotlib.pyplot as plt
+
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+from matplotlib import colors
+
+from matplotlib.colors import hsv_to_rgb
+
+import PIL.Image as Image
+
 Escape = True
 
-class GamePlay(): 
+class GamePlay():
+    
     def __init__(self): 
         # Setup the game area 
         self.game_area = {"left": 100, "top": 425, "width": 850, "height":240}
         self.capture = mss()
         self.current_keys = []
+  
 
     def collect_gameplay(self):
         
@@ -52,7 +65,7 @@ class GamePlay():
         gamecap = np.array(self.capture.grab(self.game_area))
         cv2.imwrite(f'{filename}.png', gamecap)
         np.savetxt(f'{filename}.txt', np.array([",".join(current_keys)]), fmt='%s')
-        time.sleep(0.025)
+        time.sleep(0.25)
 
 
 if __name__ == '__main__':

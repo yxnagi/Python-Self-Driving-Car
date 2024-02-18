@@ -27,7 +27,7 @@ class Capture():
         self.capture = mss()
         self.keys = []
 
-        self.model = tf.keras.models.load_model('modeltype3.model')
+        self.model = tf.keras.models.load_model('modeltype4.model')
         self.dark_green = (45, 25, 130)
         self.light_green = (85, 200, 222)
         self.dark_orange = (0, 25, 130)
@@ -47,7 +47,6 @@ class Capture():
        
         gamecap = np.array(self.capture.grab(self.game_area))
         img = cv2.cvtColor(gamecap, cv2.COLOR_BGR2RGB)
-        img = cv2.resize(img, (662, 470))
         hsv_racing = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
         mask = cv2.inRange(hsv_racing, self.dark_green, self.light_green)
         mask2 = cv2.inRange(hsv_racing, self.dark_orange, self.light_orange)
@@ -102,13 +101,13 @@ class Capture():
         #else:
         if key != None:
             keyboard.press(key)
-            print("key pressed")
+            print("key pressed1")
         #if key2 == currentkey or key2 == currentkey2:
         #    pass
         #else:
         if key2 != None:
             keyboard.press(key2)
-            print("key pressed")
+            print("key pressed2")
         
         return key, key2
 if __name__ == '__main__':

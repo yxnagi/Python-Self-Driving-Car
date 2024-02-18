@@ -23,7 +23,7 @@ currentkey2 = None
 class Capture(): 
     def __init__(self): 
         # Setup the game area 
-        self.game_area = {"left": 100, "top": 425, "width": 850, "height":241}
+        self.game_area = {"left": 100, "top": 425, "width": 850, "height":240}
         self.capture = mss()
         self.keys = []
 

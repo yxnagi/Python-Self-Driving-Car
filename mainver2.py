@@ -66,7 +66,7 @@ class GamePlay():
             current_keys.append("up arrow")
         print(current_keys)
 
-        filename = os.path.join('data3', str(uuid.uuid1()))
+        filename = os.path.join('data4', str(uuid.uuid1()))
         gamecap = np.array(self.capture.grab(self.game_area))
         cv2.imwrite(f'{filename}.png', gamecap)
         picture = cv2.imread(f"{filename}.png")
@@ -85,7 +85,7 @@ class GamePlay():
 
 if __name__ == '__main__':
     # Sleep for 10 seconds to allow us to get back into the game
-    time.sleep(2)
+    time.sleep(4)
     game = GamePlay()
     while Escape:
         game.collect_gameplay()    # DRY AFTERNOON AND MEXICO
