@@ -3,6 +3,7 @@ from PIL import ImageGrab
 import cv2
 import time
 from sklearn.cluster import KMeans
+from getkeys import key_check
 
 
 hood_y = 400

@@ -4,8 +4,6 @@ from mss import mss
 import cv2
 import numpy as np
 import time
-import uuid
-import os 
 # bring in pynput for round_predspress capture
 from pynput.keyboard import Controller, Key 
 import tensorflow as tf
@@ -14,6 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyautogui as pag
 import keyboard as kb
+import pydirectinput
 
 Escape = True
 currentkey = None
@@ -35,7 +34,6 @@ class Capture():
         
 
 
-
     def make_move(self, currentkey, currentkey2):
         
         keyboard = Controller()
@@ -55,59 +53,63 @@ class Capture():
         final_result = cv2.cvtColor(final_result, cv2.COLOR_BGR2RGB)
 
         prediction = self.model.predict(tf.convert_to_tensor([final_result]))
+        try:
+            prediction[0][1] = prediction[0][1] * 0.75
+        except:
+            pass
         round_preds = np.around(prediction)
         print(round_preds)
 
         if np.all(round_preds == [[1., 0., 0., 0.]]):
-            key = Key.up
+            key = 'up'
             key2 = None
             print("UP ASSIGNED")
         if np.all(round_preds == [[0., 1., 0., 0.]]):
-            key = Key.down
+            key = 'down'
             key2 = None
             print("DOWN ASSIGNED")
         if np.all(round_preds == [[0., 0., 1., 0.]]):
-            key = Key.left
+            key = 'left'
             key2 = None
             print("LEFT ASSIGNED")
         if np.all(round_preds == [[0., 0., 0., 1.]]):
-            key = Key.right
+            key = 'right'
             key2 = None
             print("RIGHT ASSIGNED")
         if np.all(round_preds == [[1., 0., 1., 0.]]):
-            key = Key.left
-            key2 = Key.up
+            key = 'left'
+            key2 = 'up'
         if np.all(round_preds == [[0., 1., 1., 0.]]):
-            key = Key.left
-            key2 = Key.down
+            key = 'left'
+            key2 = 'down'
         if np.all(round_preds == [[1., 0., 0., 1.]]):
-            key = Key.right
-            key2 = Key.up
+            key = 'right'
+            key2 = 'up'
         if np.all(round_preds == [[0., 1., 0., 1.]]):
-            key = Key.right
-            key2 = Key.down
+            key = 'right'
+            key2 = 'down'
         if np.all(round_preds == [[0., 0., 0., 0.]]):
             key = None
             key2 = None
 
         if currentkey != None and (currentkey!=key or currentkey!=key2):
-            keyboard.release(currentkey)
+            pydirectinput.keyUp(currentkey)
         if currentkey2 != None and (currentkey2!=key or currentkey2!=key2):
-            keyboard.release(currentkey2)
+            pydirectinput.keyUp(currentkey2)
 
 
         #if key == currentkey or key == currentkey2:
         #    pass
         #else:
         if key != None:
-            keyboard.press(key)
-            print("key pressed1")
+            pydirectinput.keyDown(key)
+            print("key pressed")
         #if key2 == currentkey or key2 == currentkey2:
         #    pass
         #else:
         if key2 != None:
-            keyboard.press(key2)
-            print("key pressed2")
+            pydirectinput.keyDown(key2)
+            print("key pressed")
         
         return key, key2
 if __name__ == '__main__':

@@ -43,15 +43,11 @@ sa = [0,0,0,0,0,0,1,0,0]
 sd = [0,0,0,0,0,0,0,1,0]
 nk = [0,0,0,0,0,0,0,0,1]
 
-model = googlenet(WIDTH, HEIGHT, 1, LR, output=9, model_name=MODEL_NAME)
+model = googlenet(WIDTH, HEIGHT, LRmodel_name=MODEL_NAME)
 
 if LOAD_MODEL:
     model.load(PREV_MODEL)
     print('We have loaded a previous model!!!!')
-    
-
-# iterates through the training files
-
 
 
 try:
@@ -60,32 +56,15 @@ try:
             train_data = np.load(file_name, allow_pickle=True)
             print('training_data-1.npy',len(train_data))
 
-##            # [   [    [FRAMES], CHOICE   ]    ] 
-##            train_data = []
-##            current_frames = deque(maxlen=HM_FRAMES)
-##            
-##            for ds in data:
-##                screen, choice = ds
-##                gray_screen = cv2.cvtColor(screen, cv2.COLOR_RGB2GRAY)
-##
-##
-##                current_frames.append(gray_screen)
-##                if len(current_frames) == HM_FRAMES:
-##                    train_data.append([list(current_frames),choice])
-
-
-            # #
-            # always validating unique data: 
-            #shuffle(train_data)
             train = train_data[:-10000]
             test = train_data[-10000:]
             
             item_size = np.array(train[0][0]).size
 
-            # Calculate the expected size based on the target shape
+
             expected_size = WIDTH * HEIGHT * 1
 
-            # Print the sizes for comparison
+
             print("Individual Item Size:", item_size)
             print("Expected Size:", expected_size)
 
